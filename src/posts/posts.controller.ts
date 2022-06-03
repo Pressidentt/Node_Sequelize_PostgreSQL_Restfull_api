@@ -4,8 +4,9 @@ import {PostsService} from "./posts.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {GetPostImageDto} from "./dto/get-post-image.dto";
 import {ApiOperation, ApiTags} from "@nestjs/swagger";
+import {GetPostsLimitedDto} from "./dto/get-posts-limited.dto";
 
-@ApiTags('Posts, 3 functions : 1) createPost, 2) getAllPosts, 3)getPostImage ')
+@ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
 
@@ -34,6 +35,18 @@ export class PostsController {
     @Get('/image_url')
     getPostImageUrl(@Body() dto:GetPostImageDto) {
         return this.postService.get_image_url(dto)
+    }
+
+
+    @ApiOperation({summary: 'Get all posts, ordered by time in descending order '})
+    @Get('/posts_ordered')
+    getPostsOrderedByTime() {
+       return this.postService.get_posts_ordered_by_time();
+    }
+    @ApiOperation({summary: 'Get the limited number of posts and using offset (for limited posts on user screen and button to show more posts) , ordered by time in descending order '})
+    @Get('/posts_with_limits_ordered')
+    getPostsWithLimits(@Body() dto:GetPostsLimitedDto) {
+        return this.postService.get_posts_ordered_by_time_with_limits(dto);
     }
 }
 

@@ -64,6 +64,7 @@ export class UsersService {
         if (!user) {
             throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND);
         }
+
         user.name = dto.name;
         user.surname = dto.surname;
         user.age = dto.age;

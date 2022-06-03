@@ -5,6 +5,7 @@ import {Post} from "./posts.model";
 import {FilesService} from "../files/files.service";
 import {GetPostImageDto} from "./dto/get-post-image.dto";
 import {join} from "path";
+import {GetPostsLimitedDto} from "./dto/get-posts-limited.dto";
 const imageType = require('image-type');
 @Injectable()
 export class PostsService {
@@ -40,6 +41,16 @@ export class PostsService {
 
         return url;
 
+    }
+    async get_posts_ordered_by_time() {
+        const posts = await this.postRepository.findAll({include: {all:true}, order: [['createdAt', 'DESC']]})
+        return posts;
+    }
+    async get_posts_ordered_by_time_with_limits(dto:GetPostsLimitedDto) {
+        const page_number = dto.pageNumber - 1;
+        const number_of_posts = dto.postsLimit;
+        const posts = await this.postRepository.findAll({offset:number_of_posts*page_number ,limit:number_of_posts, order: [['createdAt', 'DESC']]})
+        return posts;
     }
 
 

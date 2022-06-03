@@ -11,7 +11,7 @@ interface PostCreationAttrs {
     image: string;
 }
 
-@Table({tableName: 'posts'})
+@Table({tableName: 'posts', timestamps:true})
 export class Post extends Model<Post, PostCreationAttrs> {
     // comment 1235678
     @ApiProperty({example: '1', description: 'Post id'})
@@ -35,6 +35,8 @@ export class Post extends Model<Post, PostCreationAttrs> {
     userId: number;
 
     @BelongsTo(() => User)
-    author: User
+    author: User;
+
+
 
 }
