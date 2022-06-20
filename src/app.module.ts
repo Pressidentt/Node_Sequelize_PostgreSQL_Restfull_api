@@ -12,6 +12,7 @@ import {Post} from "./posts/posts.model";
 import { FilesModule } from './files/files.module';
 import {ServeStaticModule} from "@nestjs/serve-static";
 import * as path from 'path';
+import {Images} from "./posts/images.model";
 
 @Module({
     controllers: [],
@@ -26,18 +27,12 @@ import * as path from 'path';
         SequelizeModule.forRoot({
             dialect: 'postgres',
             protocol: 'postgres',
-            dialectOptions : {
-                ssl: {
-                    require:true,
-                    rejectUnauthorized: false
-                }
-            },
             host: process.env.POSTGRES_HOST,
             port: Number(process.env.POSTGRES_PORT),
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Role, UserRoles, Post],
+            models: [User, Role, UserRoles, Post, Images],
             autoLoadModels: true
         }),
         UsersModule,

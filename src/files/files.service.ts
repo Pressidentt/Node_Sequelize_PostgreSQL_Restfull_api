@@ -9,7 +9,6 @@ import {join} from "path";
 @Injectable()
 export class FilesService {
 
-
     async createFile(file): Promise<string> {
         try {
             const fileName = uuid.v4() + '.jpg';
@@ -22,6 +21,17 @@ export class FilesService {
         } catch (e) {
             throw new HttpException('Произошла ошибка при записи файла', HttpStatus.INTERNAL_SERVER_ERROR)
         }
+    }
+
+    async createMultipleFiles(files: Express.Multer.File[]) {
+        const fileNames: string[] = [];
+        for (const file of files) {
+            const fileName: string = await this.createFile(file);
+            fileNames.push(fileName);
+        }
+
+        console.log(fileNames);
+        return fileNames;
     }
 
     async getFile(filename:string): Promise<StreamableFile> {
