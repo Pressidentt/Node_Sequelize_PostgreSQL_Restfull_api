@@ -15,13 +15,13 @@ export class PostsController {
 
     constructor(private postService: PostsService) {}
 
-    @ApiOperation({summary: 'Create a post, request should consist of: title, content, userId, image(png)'})
+    @ApiOperation({summary: 'Create a post, request should consist of: title, content, userId(FROM TOKEN), price, images(up to 4)(png)'})
     @Post()
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(FilesInterceptor('images',4))
     createPost(
         @Client('id') userId: number,
-        @Body() dto: CreatePostProductionDto,
+        @Body() dto: CreatePostDto,
         @UploadedFiles() images: Array<Express.Multer.File>
     ) {
         return this.postService.createPostForUsers(dto, userId, images)

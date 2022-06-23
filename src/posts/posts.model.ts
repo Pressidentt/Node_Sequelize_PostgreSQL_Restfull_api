@@ -2,12 +2,15 @@ import {BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table} from "se
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/users.model";
 import {Images} from "./images.model";
+import {Categories} from "../categories/categories.model";
 
 interface PostCreationAttrs {
     title: string;
     content: string;
     userId: number;
     image: string;
+    price: number;
+    categoryId: number;
 }
 
 @Table({tableName: 'posts', timestamps:true})
@@ -18,11 +21,11 @@ export class Post extends Model<Post, PostCreationAttrs> {
     id: number;
 
     @ApiProperty({example: 'Searching for metal supplier for our company', description: 'Title of post, should be between 5 and 60 symbols'})
-    @Column({type: DataType.STRING, unique: true, allowNull: false})
+    @Column({type: DataType.STRING, unique: false, allowNull: false})
     title: string;
 
-    @ApiProperty({example: 'Not mentioned / 23', description: 'Price tag for the post'})
-    @Column({type: DataType.INTEGER, unique: false, allowNull: true})
+    @ApiProperty({example: 'Not mentioned / 23.0', description: 'Price tag for the post'})
+    @Column({type: DataType.FLOAT, unique: false, allowNull: true})
     price: number;
 
     @ApiProperty({example: 'Searching for metal supplier for our company and much more...', description: 'The content part of post should consist of 5 - 700 sybmols'})
@@ -31,10 +34,18 @@ export class Post extends Model<Post, PostCreationAttrs> {
 
     @HasMany(() => Images)
     images: Images[];
+
     @ForeignKey(() => User)
     @Column({type: DataType.INTEGER})
     userId: number;
 
     @BelongsTo(() => User)
     author: User;
+
+    @ForeignKey(()=> Categories)
+    @Column({type:DataType.INTEGER})
+    categoryId: number;
+
+    @BelongsTo(()=>Categories)
+    topic: Categories
 }

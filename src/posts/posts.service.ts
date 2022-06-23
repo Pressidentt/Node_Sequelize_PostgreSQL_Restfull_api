@@ -5,6 +5,7 @@ import {FilesService} from "../files/files.service";
 import {GetPostsLimitedDto} from "./dto/get-posts-limited.dto";
 import {CreatePostProductionDto} from "./dto/create-post-production.dto";
 import { Images } from './images.model';
+import {CreatePostDto} from "./dto/create-post.dto";
 
 const imageType = require('image-type');
 @Injectable()
@@ -22,7 +23,7 @@ export class PostsService {
     //     return post;
     // }
 
-    async createPostForUsers(dto:CreatePostProductionDto, userId:number, image?: any) {
+    async createPostForUsers(dto:CreatePostDto, userId:number, image?: any) {
         const images: string[] = await this.fileService.createMultipleFiles(image);
         const post = await this.postRepository.create({...dto, userId })
 

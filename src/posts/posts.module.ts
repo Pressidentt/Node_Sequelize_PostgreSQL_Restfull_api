@@ -9,12 +9,13 @@ import {Post} from "./posts.model";
 import {FilesModule} from "../files/files.module";
 import {Images} from "./images.model";
 import {JwtModule} from "@nestjs/jwt";
+import {Categories} from "../categories/categories.model";
 
 @Module({
   providers: [PostsService],
   controllers: [PostsController],
   imports: [
-    SequelizeModule.forFeature([User, Post, Images]),
+    SequelizeModule.forFeature([User, Post, Images, Categories]),
       FilesModule, JwtModule
   ]
 })
