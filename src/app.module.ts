@@ -35,8 +35,7 @@ import {Categories} from "./categories/categories.model";
                 ssl: {
                     require:true,
                     rejectUnauthorized: false
-                }
-            },
+                }},
             host: process.env.POSTGRES_HOST,
             port: Number(process.env.POSTGRES_PORT),
             username: process.env.POSTGRES_USER,

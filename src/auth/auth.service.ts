@@ -19,7 +19,7 @@ export class AuthService {
     async registration(userDto: CreateUserDto) {
         const candidate = await this.userService.getUserByEmail(userDto.email);
         if (candidate) {
-            throw new HttpException('Пользователь с таким email существует', HttpStatus.BAD_REQUEST);
+            throw new HttpException('User with email already exists', HttpStatus.BAD_REQUEST);
         }
         const hashPassword = await bcrypt.hash(userDto.password, 5);
 
@@ -32,7 +32,7 @@ export class AuthService {
     async registrationAdmin(userDto: CreateUserDto) {
         const candidate = await this.userService.getUserByEmail(userDto.email);
         if (candidate) {
-            throw new HttpException('Пользователь с таким email существует', HttpStatus.BAD_REQUEST);
+            throw new HttpException('User with email already exists', HttpStatus.BAD_REQUEST);
         }
         const hashPassword = await bcrypt.hash(userDto.password, 5);
 
@@ -56,6 +56,6 @@ export class AuthService {
         if (user && passwordEquals) {
             return user;
         }
-        throw new UnauthorizedException({message: 'Некорректный емайл или пароль'})
+        throw new UnauthorizedException({message: 'Wrong email or password'})
     }
 }

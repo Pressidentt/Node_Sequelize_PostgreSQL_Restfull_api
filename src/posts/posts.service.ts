@@ -1,11 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectModel} from "@nestjs/sequelize";
 import {Post} from "./posts.model";
 import {FilesService} from "../files/files.service";
 import {GetPostsLimitedDto} from "./dto/get-posts-limited.dto";
-import {CreatePostProductionDto} from "./dto/create-post-production.dto";
-import { Images } from './images.model';
+import {Images} from './images.model';
 import {CreatePostDto} from "./dto/create-post.dto";
+import {FilterPostsDto} from "./dto/filter-posts.dto";
+
+const { Op } = require("sequelize");
+
 
 const imageType = require('image-type');
 @Injectable()
@@ -63,5 +66,52 @@ export class PostsService {
         const number_of_posts = dto.postsLimit;
         const posts = await this.postRepository.findAll({offset:number_of_posts*page_number ,limit:number_of_posts, order: [['createdAt', 'DESC']]})
         return posts;
+    }
+
+    async search_system(search:string){
+        const answer = []
+        const posts_by_name = await this.postRepository.findAll({
+            where:{title:search},
+            order:[['createdAt', 'DESC']]
+            })
+    }
+
+    async filter_search(dto:FilterPostsDto){
+        let price_min_given = 0
+        let price_max_given = 100000
+        let answer = []
+        console.log('Min : ')
+        console.log(dto.price_min)
+        console.log('Max :')
+        console.log(dto.price_max)
+        if(dto.price_min){
+           price_min_given = dto.price_min
+        }
+        if(dto.price_max) {
+            price_max_given = dto.price_max
+        }
+
+        if(dto.category_id){
+            answer = await this.postRepository.findAll({
+                where:{
+                    categoryId:dto.category_id,
+                    price:{ [Op.gt]: price_min_given, [Op.lte]: price_max_given }
+                }
+            })
+        }
+        else {
+            answer = await this.postRepository.findAll({
+                where: {
+                    price:{ [Op.gt]: price_min_given, [Op.lte]: price_max_given }
+                }
+            })
+        }
+
+        return answer
+    }
+    async getOrderedByPriceAsc(){
+        return await this.postRepository.findAll({
+            order: [['price', 'ASC']]
+        })
     }
 }
