@@ -31,11 +31,6 @@ import {Categories} from "./categories/categories.model";
         SequelizeModule.forRoot({
             dialect: 'postgres',
             protocol: 'postgres',
-            dialectOptions : {
-                ssl: {
-                    require:true,
-                    rejectUnauthorized: false
-                }},
             host: process.env.POSTGRES_HOST,
             port: Number(process.env.POSTGRES_PORT),
             username: process.env.POSTGRES_USER,

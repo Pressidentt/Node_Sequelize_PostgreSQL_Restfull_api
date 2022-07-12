@@ -3,6 +3,9 @@ import {AppModule} from "./app.module";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {JwtAuthGuard} from "./auth/jwt-auth.guard";
 import {ValidationPipe} from "./pipes/validation.pipe";
+import * as cookieParser from 'cookie-parser';
+import * as csurf from 'csurf'
+import helmet from "helmet";
 
 
 async function start() {
@@ -21,6 +24,9 @@ async function start() {
 
 
     app.useGlobalPipes(new ValidationPipe())
+    app.use(helmet())
+    app.use(cookieParser())
+
 
     await app.listen(PORT, () => console.log(`Server started on port = ${PORT}`))
 }
