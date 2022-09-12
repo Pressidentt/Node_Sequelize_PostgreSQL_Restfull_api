@@ -4,7 +4,7 @@ import {UsersService} from "../users/users.service";
 import {JwtService} from "@nestjs/jwt";
 import * as bcrypt from 'bcryptjs'
 import {User} from "../users/users.model";
-import {request} from "http";
+import {PasswordResetDto} from "../users/dto/password-reset.dto";
 
 @Injectable()
 export class AuthService {
@@ -59,4 +59,16 @@ export class AuthService {
         }
         throw new UnauthorizedException({message: 'Wrong email or password'})
     }
+    async changePassword(dto: PasswordResetDto) {
+        const user =  await this.userService.getUserByEmail(dto.user_email);
+        const passwordEquals = await bcrypt.compare(dto.new_password, user.password);
+        if(user && passwordEquals)  {
+            user.password = await bcrypt.hash(dto.new_password, 5);
+            await user.save();
+            return user;
+        }
+        throw new HttpException('New password cant equal the old one.',HttpStatus.BAD_REQUEST);
+
+    }
+
 }
