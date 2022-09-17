@@ -17,6 +17,7 @@ import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
 import { CategoriesModule } from './categories/categories.module';
 import {Categories} from "./categories/categories.model";
+import { PasswordModule } from './password/password.module';
 
 @Module({
     controllers: [],
@@ -45,6 +46,7 @@ import {Categories} from "./categories/categories.model";
         PostsModule,
         FilesModule,
         CategoriesModule,
+        PasswordModule,
     ]
 })
 export class AppModule {}
