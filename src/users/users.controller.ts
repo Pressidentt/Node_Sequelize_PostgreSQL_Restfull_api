@@ -8,10 +8,8 @@ import {Roles} from "../auth/roles-auth.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {AddRoleDto} from "./dto/add-role.dto";
 import {BanUserDto} from "./dto/ban-user.dto";
-import {ValidationPipe} from "../pipes/validation.pipe";
 import {UpdateProfileDto} from "./dto/update-profile.dto";
 import {Client} from "./decorators/users.decorator";
-import useRealTimers = jest.useRealTimers;
 
 @ApiTags('User')
 @Controller('users')

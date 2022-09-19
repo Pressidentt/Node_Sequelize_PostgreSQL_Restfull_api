@@ -18,6 +18,7 @@ import { CategoriesService } from './categories/categories.service';
 import { CategoriesModule } from './categories/categories.module';
 import {Categories} from "./categories/categories.model";
 import { PasswordModule } from './password/password.module';
+import {PasswordReset} from "./password/password.model";
 
 @Module({
     controllers: [],
@@ -37,7 +38,7 @@ import { PasswordModule } from './password/password.module';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Role, UserRoles, Post, Images, Categories],
+            models: [User, Role, UserRoles, Post, Images, Categories, PasswordReset],
             autoLoadModels: true
         }),
         UsersModule,

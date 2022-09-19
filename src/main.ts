@@ -1,11 +1,10 @@
 import {NestFactory} from "@nestjs/core";
 import {AppModule} from "./app.module";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {JwtAuthGuard} from "./auth/jwt-auth.guard";
-import {ValidationPipe} from "./pipes/validation.pipe";
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf'
 import helmet from "helmet";
+import {ValidationPipe} from "@nestjs/common";
 
 
 async function start() {
@@ -23,7 +22,7 @@ async function start() {
     SwaggerModule.setup('/api/docs', app, document)
 
 
-    app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalPipes(new ValidationPipe({whitelist:true}))
     app.use(helmet())
     app.use(cookieParser())
 

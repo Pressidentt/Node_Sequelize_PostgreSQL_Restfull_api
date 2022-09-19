@@ -59,16 +59,5 @@ export class AuthService {
         }
         throw new UnauthorizedException({message: 'Wrong email or password'})
     }
-    async changePassword(dto: PasswordResetDto) {
-        const user =  await this.userService.getUserByEmail(dto.user_email);
-        const passwordEquals = await bcrypt.compare(dto.new_password, user.password);
-        if(user && passwordEquals)  {
-            user.password = await bcrypt.hash(dto.new_password, 5);
-            await user.save();
-            return user;
-        }
-        throw new HttpException('New password cant equal the old one.',HttpStatus.BAD_REQUEST);
-
-    }
 
 }

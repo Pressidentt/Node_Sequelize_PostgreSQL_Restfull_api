@@ -1,25 +1,27 @@
 import { Module } from '@nestjs/common';
 import { PasswordService } from './password.service';
 import { PasswordController } from './password.controller';
-import {MailerModule} from "@nestjs-modules/mailer";
-import {EjsAdapter} from "@nestjs-modules/mailer/dist/adapters/ejs.adapter";
+import {SequelizeModule} from "@nestjs/sequelize";
+import {PasswordReset} from "./password.model";
+import {User} from "../users/users.model";
 
 @Module({
 
   imports:[
-    MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
-      defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
-      },
-      template: {
-        dir: __dirname + '/templates',
-        adapter: new EjsAdapter(),
-        options: {
-          strict: true,
-        },
-      },
-    }),
+      SequelizeModule.forFeature([PasswordReset, User])
+    //MailerModule.forRoot({
+    //  transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+    //  defaults: {
+    //    from: '"nest-modules" <modules@nestjs.com>',
+    //  },
+    //  template: {
+     //   dir: __dirname + '/templates',
+     //   adapter: new EjsAdapter(),
+     //   options: {
+       //   strict: true,
+       // },
+     // },
+   // }),
   ],
 
   providers: [PasswordService],

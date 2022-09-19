@@ -16,7 +16,10 @@ export class ValidationPipe implements PipeTransform<any> {
             })
             throw new ValidationException(messages)
         }
+        console.log('Doshel')
+        console.log(value)
         return value;
+
     }
 
 }
